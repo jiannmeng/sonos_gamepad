@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "sonos_gamepad"
+version = "0.1.0"
+description = "Pause Sonos using a controller."
+authors = ["Tan Jiann Meng <jiannmeng@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+soco = "^0.22.1"
+pygame = "^2.0.1"
+
+[tool.poetry.dev-dependencies]
+flake8-black = "^0.2.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
