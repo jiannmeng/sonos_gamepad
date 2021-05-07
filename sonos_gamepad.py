@@ -6,6 +6,10 @@ import time
 import pygame
 import soco
 
+PLAY_OR_PAUSE = [0, 3] # Xbox: A or Y
+PLAY = [2]          # Xbox: X
+PAUSE = [1]         # Xbox: B
+
 
 def main():
     try:
@@ -43,6 +47,18 @@ def main():
                     else:
                         logging.info("Sending PLAY to speaker...")
                         device.play()
+
+                elif event.type == pygame.JOYHATMOTION:
+                    logging.info("D-pad pressed.")
+
+                    x, y = event.dict['value']
+                    if x < 0 or y < 0:
+                        device.volume -= 5
+                        logging.info(f"Volume reduced to {device.volume}.")
+                    elif x > 0 or y > 0:
+                        device.volume += 5
+                        logging.info(f"Volume increased to {device.volume}.")
+                    
             time.sleep(0.5)
 
     except KeyboardInterrupt:
