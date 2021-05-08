@@ -18,7 +18,7 @@ def main():
 
         # Parse arguments
         parser = argparse.ArgumentParser(description="Pause Sonos using a controller.")
-        parser.add_argument("speaker_name", type=str, help="Sonos speaker name")
+        parser.add_argument("-n", "--name", type=str, help="Sonos speaker name")
         args = parser.parse_args()
 
         # Find a plugged in controller. Throws exception if no controller found.
@@ -26,10 +26,17 @@ def main():
         logging.info(f"Found a connected game controller.")
 
         # Search for the Sonos speaker with given name.
-        logging.info(f"Searching for Sonos speaker named {args.speaker_name}...")
-        device = soco.discovery.by_name(args.speaker_name)
+        device = None
+        while not device:
+            if not args.name:
+                args.name = input("Enter Sonos speaker name to control: ")
+            logging.info(f"Searching for Sonos speaker named {args.name}...")
+            device = soco.discovery.by_name(args.name)
+            if not device:
+                print(f"Sonos speaker {args.name} not found.")
+                args.name = None
         logging.info(f"Sonos speaker found. Ready to receive input.")
-
+        
         while True:
             events = pygame.event.get()
             for event in events:
